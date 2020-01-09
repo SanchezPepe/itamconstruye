@@ -50,10 +50,9 @@
                         :format="DatePickerFormat">
                     </b-datepicker>
                 </b-field>
-            </b-field>
-            <br>
-            <b-field label="Condiones médicas y/o alergias">
-                <b-input maxlength="200" type="textarea"></b-input>
+                <b-field label="Condiciones médicas y/o alergias" expanded>
+                    <b-input type="textarea"></b-input>
+                </b-field>
             </b-field>
 
             <!-- INFORMACIÓN ESCOLAR DEL ALUMNO -->
@@ -74,6 +73,7 @@
             </b-field>
         </section>
 
+        <!-- Información del tutor -->
         <br>
         <h2 class="subtitle">Información de padre, madre o tutor</h2>
         <section class="container info">
@@ -101,7 +101,33 @@
                 </b-field>
             </b-field>
         </section>
+
+        <!-- Seleccionar cursos -->
         <br>
+        <h2 class="subtitle">¿A qué programas desea inscribirse?</h2>
+        <section class="container info">
+            <button class="button is-medium is-primary" @click="alert">
+                Ver horario de los programas
+            </button>
+            <hr>
+            <div>
+                <section class="columns">
+                    <b-checkbox class="column">Club de Tareas</b-checkbox>
+                    <b-checkbox class="column">Coro Construye</b-checkbox>
+                    <b-checkbox class="column">DANCO</b-checkbox>
+                    <b-checkbox class="column">OMIC</b-checkbox>
+                </section>
+                <section class="columns">
+                    <b-checkbox class="column">Real</b-checkbox>
+                    <b-checkbox class="column">Sharing</b-checkbox>
+                    <b-checkbox class="column">Ajedrez Construye</b-checkbox>
+                    <div class="column"></div>
+                </section>
+            </div>
+
+        </section>
+        <br>
+        <!-- Botones para confirmar o cancelar -->
         <div class="buttons container is-centered">
             <b-button type="is-success" size="is-medium">Registrar</b-button>
             <b-button type="is-danger" size="is-medium">Cancelar</b-button>
@@ -121,6 +147,15 @@
                 daysEs: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                 yearsRange: [-30, 0]
 
+            }
+        },
+        methods: {
+            alert() {
+                this.$buefy.dialog.alert({
+                    title: 'Horario de Programas Privamera 2020',
+                    message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
+                    confirmText: 'Ok'
+                })
             }
         }
     }
