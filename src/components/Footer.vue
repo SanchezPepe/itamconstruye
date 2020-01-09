@@ -1,8 +1,8 @@
 <template>
-    <footer class="footer">
+    <footer class="footer has-background-black">
         <div class="content has-text-centered">
             <p>
-                <strong>ITAM Construye 2020</strong>
+                <strong style="color: white">ITAM Construye 2020</strong>
             </p>
         </div>
     </footer>
