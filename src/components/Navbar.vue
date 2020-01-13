@@ -1,21 +1,17 @@
 <template>
-    <b-navbar>
+    <b-navbar class="is-black">
         <template slot="brand">
             <b-navbar-item tag="router-link" :to="{ path: '/' }">
-                <img src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-                    alt="Lightweight UI components for Vue.js based on Bulma">
+                <p>ITAM Construye - SI</p>
             </b-navbar-item>
         </template>
         
         <template slot="start">
             <b-navbar-item href="#">
-                <router-link to="/" class="navbar-item has-text-weight-bold">Home</router-link>
+                <router-link to="/" class="navbar-item has-text-weight-bold">Inicio</router-link>
             </b-navbar-item>
             <b-navbar-item href="#">
-                <router-link to="/about" class="navbar-item has-text-weight-bold">About</router-link>
-            </b-navbar-item>
-            <b-navbar-item href="#">
-                <router-link to="/form" class="navbar-item has-text-weight-bold">Form</router-link>
+                <router-link to="/form" class="navbar-item has-text-weight-bold">Registro Alumnos</router-link>
             </b-navbar-item>
         </template>
 
