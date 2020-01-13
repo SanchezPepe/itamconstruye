@@ -19,6 +19,8 @@
         <section class="container info">
             <div class="block">
                 <b-field label="¿El alumno ha estado inscrito en alguno de nuestros programas?" />
+                <strong style="color: red" v-if="missingBIC">Seleccionar una opción</strong>
+                <br>
                 <b-radio v-model="beenOnIC" native-value="true">
                     Sí
                 </b-radio>
@@ -67,6 +69,8 @@
                 </b-field>
                 <b-field label="Sabe leer?" expanded>
                     <div class="block">
+                    <strong style="color: red" v-if="missingReading">Seleccionar una opción</strong>
+                    <br v-if="missingReading">
                         <b-radio v-model="reads" native-value="true">
                             Sí
                         </b-radio>
@@ -120,19 +124,21 @@
             </button>
             <hr>
             <div>
+                <strong style="color: red;" v-if="missingAct">Seleccionar al menos una actividad</strong>
+                <br v-if="missingAct">
                 <section class="columns">
-                    <b-checkbox class="column" v-model="cbxHmw" false-value="no" true-value="yes">Club de Tareas
+                    <b-checkbox class="column" v-model="cbxHmw" false-value="no" true-value="Tareas">Club de Tareas
                     </b-checkbox>
-                    <b-checkbox class="column" v-model="cbxChorus" false-value="no" true-value="yes">Coro Construye
+                    <b-checkbox class="column" v-model="cbxChorus" false-value="no" true-value="Coro">Coro Construye
                     </b-checkbox>
-                    <b-checkbox class="column" v-model="cbxDance" false-value="no" true-value="yes">DANCO</b-checkbox>
-                    <b-checkbox class="column" v-model="cbxOMIC" false-value="no" true-value="yes">OMIC</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxDance" false-value="no" true-value="DANCO">DANCO</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxOMIC" false-value="no" true-value="OMIC">OMIC</b-checkbox>
                 </section>
                 <section class="columns">
-                    <b-checkbox class="column" v-model="cbxReal" false-value="no" true-value="yes">Real</b-checkbox>
-                    <b-checkbox class="column" v-model="cbxSharing" false-value="no" true-value="yes">Sharing
+                    <b-checkbox class="column" v-model="cbxReal" false-value="no" true-value="Real">Real</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxSharing" false-value="no" true-value="Sharing">Sharing
                     </b-checkbox>
-                    <b-checkbox class="column" v-model="cbxChess" false-value="no" true-value="yes">Ajedrez Construye
+                    <b-checkbox class="column" v-model="cbxChess" false-value="no" true-value="Ajedrez">Ajedrez Construye
                     </b-checkbox>
                     <div class="column"></div>
                 </section>
@@ -206,6 +212,9 @@
                 phoneError: false,
                 emailError: false,
                 emailValError: false,
+                missingBIC: false,
+                missingReading: false,
+                missingAct: false
             }
         },
         firestore() {
@@ -226,6 +235,14 @@
                 this.phoneError = (this.phone === null || this.phone === '') ? true : false;
                 this.emailError = (this.email === null || this.email === '') ? true : false;
                 this.emailValError = (this.validateEmail === null || this.validateEmail === '') ? true : false;
+                this.missingBIC = (this.beenOnIC === null) ? true : false;
+                this.missingReading = (this.reads === null) ? true : false
+
+                let checks = [this.cbxHmw, this.cbxChorus, this.cbxDance, this.cbxOMIC, this.cbxReal, this.cbxSharing, this.cbxChess];
+                let activities = checks.filter(check => (check !== null && check !== 'no'));
+                console.log(activities);
+                this.missingAct = (activities.length === 0);
+
             },
             register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName,
                 tutorFLN,
