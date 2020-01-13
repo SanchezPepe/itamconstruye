@@ -69,8 +69,8 @@
                 </b-field>
                 <b-field label="Sabe leer?" expanded>
                     <div class="block">
-                    <strong style="color: red" v-if="missingReading">Seleccionar una opción</strong>
-                    <br v-if="missingReading">
+                        <strong style="color: red" v-if="missingReading">Seleccionar una opción</strong>
+                        <br v-if="missingReading">
                         <b-radio v-model="reads" native-value="true">
                             Sí
                         </b-radio>
@@ -109,7 +109,7 @@
                     <b-input type="email" v-model="email" validation-message="Introduce un correo válido"></b-input>
                 </b-field>
                 <b-field label="Volver a escribir correo" expanded :type="{ 'is-danger': emailValError }"
-                    :message="{ 'El campo no puede estar vacío': emailValError}">
+                    :message="{ 'Los correos no coinciden': emailValError}">
                     <b-input type="email" v-model="validateEmail"></b-input>
                 </b-field>
             </b-field>
@@ -119,36 +119,47 @@
         <br>
         <h2 class="subtitle">¿A qué programas desea inscribirse?</h2>
         <section class="container info">
-            <button class="button is-medium is-primary" @click="alert">
-                Ver horario de los programas
-            </button>
-            <hr>
             <div>
-                <strong style="color: red;" v-if="missingAct">Seleccionar al menos una actividad</strong>
-                <br v-if="missingAct">
-                <section class="columns">
-                    <b-checkbox class="column" v-model="cbxHmw" false-value="no" true-value="Tareas">Club de Tareas
-                    </b-checkbox>
-                    <b-checkbox class="column" v-model="cbxChorus" false-value="no" true-value="Coro">Coro Construye
-                    </b-checkbox>
-                    <b-checkbox class="column" v-model="cbxDance" false-value="no" true-value="DANCO">DANCO</b-checkbox>
-                    <b-checkbox class="column" v-model="cbxOMIC" false-value="no" true-value="OMIC">OMIC</b-checkbox>
-                </section>
-                <section class="columns">
-                    <b-checkbox class="column" v-model="cbxReal" false-value="no" true-value="Real">Real</b-checkbox>
-                    <b-checkbox class="column" v-model="cbxSharing" false-value="no" true-value="Sharing">Sharing
-                    </b-checkbox>
-                    <b-checkbox class="column" v-model="cbxChess" false-value="no" true-value="Ajedrez">Ajedrez Construye
-                    </b-checkbox>
-                    <div class="column"></div>
-                </section>
+                <div class="columns">
+                    <div class="column is-two-thirds">
+                        <strong>Horarios Primavera 2020</strong>
+                        <img src="../assets/horarioDummy.png" alt="Horario de actividades">
+                    </div>
+                    <section class="column">
+                        <strong style="color: red;" v-if="missingAct">Seleccionar al menos una actividad</strong>
+                        <hr>
+                        <div class="has-text-justified" style="">
+                            <b-checkbox v-model="cbxHmw" false-value="no" true-value="Tareas">
+                                Club de Tareas
+                            </b-checkbox>
+                            <b-checkbox v-model="cbxChorus" false-value="no" true-value="Coro">
+                                Coro Construye
+                            </b-checkbox>
+                            <b-checkbox v-model="cbxDance" false-value="no" true-value="DANCO">
+                                DANCO
+                            </b-checkbox>
+                            <b-checkbox v-model="cbxOMIC" false-value="no" true-value="OMIC">
+                                OMIC
+                            </b-checkbox>
+                            <b-checkbox v-model="cbxReal" false-value="no" true-value="Real">
+                                Real
+                            </b-checkbox>
+                            <b-checkbox v-model="cbxSharing" false-value="no" true-value="Sharing">
+                                Sharing
+                            </b-checkbox>
+                            <b-checkbox v-model="cbxChess" false-value="no" true-value="Ajedrez">
+                                Ajedrez Construye
+                            </b-checkbox>
+                        </div>
+                    </section>
+                </div>
             </div>
 
         </section>
         <br>
         <!-- Botones para confirmar o cancelar -->
         <div class="buttons container is-centered">
-            <b-button type="submit" size="is-medium" v-on:click="register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName, tutorFLN,
+            <b-button type="is-success" size="is-medium" v-on:click="register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName, tutorFLN,
                 tutorMLN, phone, email)">Registrar</b-button>
             <b-button type="is-danger" size="is-medium" v-on:click="validate()">Cancelar</b-button>
         </div>
@@ -234,11 +245,13 @@
                 this.tutorMLNError = (this.tutorMLN === null || this.tutorMLN === '') ? true : false;
                 this.phoneError = (this.phone === null || this.phone === '') ? true : false;
                 this.emailError = (this.email === null || this.email === '') ? true : false;
-                this.emailValError = (this.validateEmail === null || this.validateEmail === '') ? true : false;
+                this.emailValError = (this.validateEmail !== this.email) ? true : false;
                 this.missingBIC = (this.beenOnIC === null) ? true : false;
                 this.missingReading = (this.reads === null) ? true : false
 
-                let checks = [this.cbxHmw, this.cbxChorus, this.cbxDance, this.cbxOMIC, this.cbxReal, this.cbxSharing, this.cbxChess];
+                let checks = [this.cbxHmw, this.cbxChorus, this.cbxDance, this.cbxOMIC, this.cbxReal, this.cbxSharing,
+                    this.cbxChess
+                ];
                 let activities = checks.filter(check => (check !== null && check !== 'no'));
                 console.log(activities);
                 this.missingAct = (activities.length === 0);
@@ -266,13 +279,6 @@
                         email,
                         createdAt
                     })
-            },
-            alert() {
-                this.$buefy.dialog.alert({
-                    title: 'Horario de Programas Privamera 2020',
-                    message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
-                    confirmText: 'Ok'
-                })
             }
         }
     }
