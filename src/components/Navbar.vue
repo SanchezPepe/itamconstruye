@@ -13,6 +13,9 @@
             <b-navbar-item href="#">
                 <router-link to="/form" class="navbar-item has-text-weight-bold">Registro Alumnos</router-link>
             </b-navbar-item>
+            <b-navbar-item href="#">
+                <router-link to="/test" class="navbar-item has-text-weight-bold">Test</router-link>
+            </b-navbar-item>
         </template>
 
         <template slot="end">
