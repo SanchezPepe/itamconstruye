@@ -18,10 +18,10 @@
         <section class="container info">
             <div class="block">
                 <b-field label="¿El alumno ha estado inscrito en alguno de nuestros programas?" />
-                <b-radio v-model="radio" name="name" native-value="Sí">
+                <b-radio v-model="previous" name="name" native-value="Sí">
                     Sí
                 </b-radio>
-                <b-radio v-model="radio" name="name" native-value="No">
+                <b-radio v-model="previous" name="name" native-value="No">
                     No
                 </b-radio>
             </div>
@@ -34,7 +34,7 @@
             <!-- INFORMACION BASICA DEL ALUMNO -->
             <b-field grouped group-multiline>
                 <b-field label="Nombre(s)" expanded>
-                    <b-input type="text" v-model="studentName"></b-input>
+                    <b-input type="text" v-model="studentName" required validation-message="El campo no puede estar vacío"></b-input>
                 </b-field>
                 <b-field label="Apellido Paterno" expanded>
                     <b-input type="text" v-model="studentFLN"></b-input>
@@ -47,25 +47,25 @@
                 <b-field label="Fecha de nacimiento" expanded>
                     <b-datepicker :show-week-number="showWeekNumber" :month-names="monthEs" :dayNames="daysEs"
                         :years-range="yearsRange" placeholder="Seleccionar fecha" icon="calendar-today"
-                        :format="DatePickerFormat">
+                        :format="DatePickerFormat" v-model="birthDate">
                     </b-datepicker>
                 </b-field>
                 <b-field label="Condiciones médicas y/o alergias" expanded>
-                    <b-input type="textarea"></b-input>
+                    <b-input type="textarea" v-model="medicalInfo"></b-input>
                 </b-field>
             </b-field>
 
             <!-- INFORMACIÓN ESCOLAR DEL ALUMNO -->
             <b-field grouped group-multiline>
                 <b-field label="Grado Escolar" expanded>
-                    <b-input type="text" v-model="studentName"></b-input>
+                    <b-input type="text" v-model="grade"></b-input>
                 </b-field>
                 <b-field label="Sabe leer?" expanded>
                     <div class="block">
-                        <b-radio v-model="radio" name="name" native-value="Sí">
+                        <b-radio v-model="reads" name="name" native-value="Sí">
                             Sí
                         </b-radio>
-                        <b-radio v-model="radio" name="name" native-value="No">
+                        <b-radio v-model="reads" name="name" native-value="No">
                             No
                         </b-radio>
                     </div>
@@ -91,12 +91,13 @@
 
             <b-field grouped group-multiline>
                 <b-field label="Teléfono" expanded>
-                    <b-input type="text" v-model="phone"></b-input>
+                    <b-input type="email" v-model="phone" minlength="5"
+                        validation-message="Introduce un teléfono valido"></b-input>
                 </b-field>
                 <b-field label="Correo Electrónico" expanded>
-                    <b-input type="text" v-model="email"></b-input>
+                    <b-input type="email" v-model="email" validation-message="Introduce un correo válido"></b-input>
                 </b-field>
-                <b-field label="Volver a escribir correo" expanded>
+                <b-field :type="validationEmails" :message="valmsg" label="Volver a escribir correo" expanded>
                     <b-input type="text" v-model="validateEmail"></b-input>
                 </b-field>
             </b-field>
@@ -112,15 +113,19 @@
             <hr>
             <div>
                 <section class="columns">
-                    <b-checkbox class="column">Club de Tareas</b-checkbox>
-                    <b-checkbox class="column">Coro Construye</b-checkbox>
-                    <b-checkbox class="column">DANCO</b-checkbox>
-                    <b-checkbox class="column">OMIC</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxHmw" false-value="no" true-value="yes">Club de Tareas
+                    </b-checkbox>
+                    <b-checkbox class="column" v-model="cbxChorus" false-value="no" true-value="yes">Coro Construye
+                    </b-checkbox>
+                    <b-checkbox class="column" v-model="cbxDance" false-value="no" true-value="yes">DANCO</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxOMIC" false-value="no" true-value="yes">OMIC</b-checkbox>
                 </section>
                 <section class="columns">
-                    <b-checkbox class="column">Real</b-checkbox>
-                    <b-checkbox class="column">Sharing</b-checkbox>
-                    <b-checkbox class="column">Ajedrez Construye</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxReal" false-value="no" true-value="yes">Real</b-checkbox>
+                    <b-checkbox class="column" v-model="cbxSharing" false-value="no" true-value="yes">Sharing
+                    </b-checkbox>
+                    <b-checkbox class="column" v-model="cbxChess" false-value="no" true-value="yes">Ajedrez Construye
+                    </b-checkbox>
                     <div class="column"></div>
                 </section>
             </div>
@@ -129,7 +134,7 @@
         <br>
         <!-- Botones para confirmar o cancelar -->
         <div class="buttons container is-centered">
-            <b-button type="is-success" size="is-medium">Registrar</b-button>
+            <b-button type="is-success" size="is-medium" v-on:click="validate">Registrar</b-button>
             <b-button type="is-danger" size="is-medium">Cancelar</b-button>
         </div>
         <br>
@@ -145,8 +150,31 @@
                     'Octubre', 'Noviembre', 'Diciembre'
                 ],
                 daysEs: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                yearsRange: [-30, 0]
+                yearsRange: [-30, 0],
+                previous: null,
+                studentName: null,
+                studentFLN: null,
+                studentMLN: null,
+                birthDate: null,
+                medicalInfo: null,
+                grade: null,
+                reads: null,
+                tutorName: null,
+                tutorFLN: null,
+                tutorMLN: null,
+                phone: null,
+                email: null,
+                validateEmail: null,
+                //Checkbox'
+                cbxHmw: null,
+                cbxChorus: null,
+                cbxDance: null,
+                cbxOMIC: null,
+                cbxReal: null,
+                cbxSharing: null,
 
+                validationEmails: null,
+                valmsg: ""
             }
         },
         methods: {
@@ -156,6 +184,17 @@
                     message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
                     confirmText: 'Ok'
                 })
+            },
+            validate() {
+                if (this.email !== this.validateEmail) {
+                    this.validationEmails = "is-danger"
+                    this.valmsg = "Los correos no son iguales"
+                } else {
+                    this.validationEmails = "null",
+                        this.valmsg = ""
+                }
+                this.studentName = null
+
             }
         }
     }
