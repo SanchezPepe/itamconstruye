@@ -47,9 +47,8 @@
             </b-field>
             <b-field grouped group-multiline>
                 <b-field label="Fecha de nacimiento" expanded>
-                    <b-datepicker :show-week-number="showWeekNumber" :month-names="monthEs" :dayNames="daysEs"
-                        :years-range="yearsRange" placeholder="Seleccionar fecha" icon="calendar-today"
-                        :format="DatePickerFormat" v-model="birthDate">
+                    <b-datepicker :month-names="monthEs" :dayNames="daysEs" :years-range="yearsRange"
+                        placeholder="Seleccionar fecha" icon="calendar-today" v-model="birthDate">
                     </b-datepicker>
                 </b-field>
                 <b-field label="Condiciones médicas y/o alergias" expanded>
@@ -99,7 +98,7 @@
                 <b-field label="Correo Electrónico" expanded>
                     <b-input type="email" v-model="email" validation-message="Introduce un correo válido"></b-input>
                 </b-field>
-                <b-field :type="validationEmails" :message="valmsg" label="Volver a escribir correo" expanded>
+                <b-field type="text" label="Volver a escribir correo" expanded>
                     <b-input type="text" v-model="validateEmail"></b-input>
                 </b-field>
             </b-field>
@@ -136,7 +135,8 @@
         <br>
         <!-- Botones para confirmar o cancelar -->
         <div class="buttons container is-centered">
-            <b-button type="submit" size="is-medium" v-on:click="validate">Registrar</b-button>
+            <b-button type="submit" size="is-medium" v-on:click="register(studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName, tutorFLN,
+                tutorMLN, phone, email)">Registrar</b-button>
             <b-button type="is-danger" size="is-medium">Cancelar</b-button>
         </div>
         <br>
@@ -145,48 +145,22 @@
 
 <script src="/__/firebase/7.6.2/firebase-firestore.js"></script>
 <script>
-import { db } from '../main'
+    import {
+        db
+    } from '../main'
+
     export default {
         name: 'Footer',
-        firestore() {
-            return {
-                locations: db.collection('students').orderBy('createdAt')
-            }
-        },
-        methods: {
-            addLocation(name, image) { // <-- and here 
-                const createdAt = new Date()
-                
-            },
-            alert() {
-                this.$buefy.dialog.alert({
-                    title: 'Horario de Programas Privamera 2020',
-                    message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
-                    confirmText: 'Ok'
-                })
-            },
-            validate() {
-                if (this.email !== this.validateEmail) {
-                    this.validationEmails = "is-danger"
-                    this.valmsg = "Los correos no son iguales"
-                } else {
-                    this.validationEmails = "null",
-                        this.valmsg = ""
-                }
-                db.collection('students').add({
-                    name:"dasda",
-                    image: "dasda",
-                    createdAt: "dsada"
-                })
-            }
-        },
         data() {
             return {
+                // Para el formato del datepicker
                 monthEs: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
                     'Octubre', 'Noviembre', 'Diciembre'
                 ],
                 daysEs: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                 yearsRange: [-30, 0],
+
+                //Datos del alumno
                 previous: null,
                 studentName: null,
                 studentFLN: null,
@@ -201,16 +175,47 @@ import { db } from '../main'
                 phone: null,
                 email: null,
                 validateEmail: null,
-                //Checkbox'
+                //Checkbox's
                 cbxHmw: null,
                 cbxChorus: null,
                 cbxDance: null,
                 cbxOMIC: null,
                 cbxReal: null,
                 cbxSharing: null,
-
-                validationEmails: null,
-                valmsg: ""
+                cbxChess: null,
+            }
+        },
+        firestore() {
+            return {
+                locations: db.collection('students').orderBy('createdAt')
+            }
+        },
+        methods: {
+            register(studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName, tutorFLN,
+                tutorMLN, phone, email) {
+                const createdAt = new Date()
+                db.collection('students').add({
+                    studentName,
+                    studentFLN,
+                    studentMLN,
+                    birthDate,
+                    medicalInfo,
+                    grade,
+                    reads,
+                    tutorName,
+                    tutorFLN,
+                    tutorMLN,
+                    phone,
+                    email,
+                    createdAt
+                })
+            },
+            alert() {
+                this.$buefy.dialog.alert({
+                    title: 'Horario de Programas Privamera 2020',
+                    message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
+                    confirmText: 'Ok'
+                })
             }
         }
     }
