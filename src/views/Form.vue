@@ -13,15 +13,16 @@
                 </div>
             </div>
         </section>
+
         <br>
         <h2 class="subtitle">Información previa</h2>
         <section class="container info">
             <div class="block">
                 <b-field label="¿El alumno ha estado inscrito en alguno de nuestros programas?" />
-                <b-radio v-model="previous" name="name" native-value="Sí">
+                <b-radio v-model="previous" name="name" native-value="true">
                     Sí
                 </b-radio>
-                <b-radio v-model="previous" name="name" native-value="No">
+                <b-radio v-model="previous" name="name" native-value="false">
                     No
                 </b-radio>
             </div>
@@ -34,7 +35,8 @@
             <!-- INFORMACION BASICA DEL ALUMNO -->
             <b-field grouped group-multiline>
                 <b-field label="Nombre(s)" expanded>
-                    <b-input type="text" v-model="studentName" required validation-message="El campo no puede estar vacío"></b-input>
+                    <b-input type="text" v-model="studentName" required
+                        validation-message="El campo no puede estar vacío"></b-input>
                 </b-field>
                 <b-field label="Apellido Paterno" expanded>
                     <b-input type="text" v-model="studentFLN"></b-input>
@@ -134,16 +136,50 @@
         <br>
         <!-- Botones para confirmar o cancelar -->
         <div class="buttons container is-centered">
-            <b-button type="is-success" size="is-medium" v-on:click="validate">Registrar</b-button>
+            <b-button type="submit" size="is-medium" v-on:click="validate">Registrar</b-button>
             <b-button type="is-danger" size="is-medium">Cancelar</b-button>
         </div>
         <br>
     </section>
 </template>
 
+<script src="/__/firebase/7.6.2/firebase-firestore.js"></script>
 <script>
+import { db } from '../main'
     export default {
         name: 'Footer',
+        firestore() {
+            return {
+                locations: db.collection('students').orderBy('createdAt')
+            }
+        },
+        methods: {
+            addLocation(name, image) { // <-- and here 
+                const createdAt = new Date()
+                
+            },
+            alert() {
+                this.$buefy.dialog.alert({
+                    title: 'Horario de Programas Privamera 2020',
+                    message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
+                    confirmText: 'Ok'
+                })
+            },
+            validate() {
+                if (this.email !== this.validateEmail) {
+                    this.validationEmails = "is-danger"
+                    this.valmsg = "Los correos no son iguales"
+                } else {
+                    this.validationEmails = "null",
+                        this.valmsg = ""
+                }
+                db.collection('students').add({
+                    name:"dasda",
+                    image: "dasda",
+                    createdAt: "dsada"
+                })
+            }
+        },
         data() {
             return {
                 monthEs: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
@@ -175,26 +211,6 @@
 
                 validationEmails: null,
                 valmsg: ""
-            }
-        },
-        methods: {
-            alert() {
-                this.$buefy.dialog.alert({
-                    title: 'Horario de Programas Privamera 2020',
-                    message: '<img src="http://localhost:8080/img/horarioDummy.f8feae03.png" alt="Horario de prueba">',
-                    confirmText: 'Ok'
-                })
-            },
-            validate() {
-                if (this.email !== this.validateEmail) {
-                    this.validationEmails = "is-danger"
-                    this.valmsg = "Los correos no son iguales"
-                } else {
-                    this.validationEmails = "null",
-                        this.valmsg = ""
-                }
-                this.studentName = null
-
             }
         }
     }

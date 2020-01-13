@@ -4,16 +4,20 @@
             <a href="http://www.itamconstruye.itam.mx/">
                 <strong style="color: white">ITAM Construye - 2020</strong>
             </a>
+            <br>
+            <strong class="has-text-white">Contacto: itamconstruye@gmail.com </strong>
         </div>
-        <a href="https://www.facebook.com/ITAMConstruye/">
-            <img class="icons" src="https://bit.ly/2FvRUKz" alt="">
-        </a>
-        <a href="https://twitter.com/ITAMConstruye">
-            <img class="icons" src="https://bit.ly/2FzTewg" alt="">
-        </a>
-        <a href="https://twitter.com/ITAMConstruye">
-            <img class="icons" src="https://bit.ly/37SsTWq" alt="">
-        </a>
+        <div class="container">
+            <a href="https://www.facebook.com/ITAMConstruye/">
+                <img class="icons" src="https://bit.ly/2FvRUKz" alt="">
+            </a>
+            <a href="https://twitter.com/ITAMConstruye">
+                <img class="icons" src="https://bit.ly/2FzTewg" alt="">
+            </a>
+            <a href="https://twitter.com/ITAMConstruye">
+                <img class="icons" src="https://bit.ly/37SsTWq" alt="">
+            </a>
+        </div>
     </footer>
 </template>
 
