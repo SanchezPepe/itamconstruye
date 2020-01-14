@@ -17,10 +17,9 @@
         <br>
         <h2 class="subtitle">Información previa</h2>
         <section class="container info">
+            <strong style="color: red" v-if="missingBIC">Seleccionar una opción</strong>
             <div class="block">
                 <b-field label="¿El alumno ha estado inscrito en alguno de nuestros programas?" />
-                <strong style="color: red" v-if="missingBIC">Seleccionar una opción</strong>
-                <br>
                 <b-radio v-model="beenOnIC" native-value="true">
                     Sí
                 </b-radio>
@@ -56,29 +55,29 @@
                         placeholder="Seleccionar fecha" icon="calendar-today" v-model="birthDate">
                     </b-datepicker>
                 </b-field>
-                <b-field label="Condiciones médicas y/o alergias" expanded>
-                    <b-input type="textarea" v-model="medicalInfo"></b-input>
-                </b-field>
-            </b-field>
-
-            <!-- INFORMACIÓN ESCOLAR DEL ALUMNO -->
-            <b-field grouped group-multiline>
                 <b-field label="Grado Escolar" expanded :type="{ 'is-danger': gradeError }"
                     :message="{ 'El campo no puede estar vacío': gradeError}">
                     <b-input type="text" v-model="grade"></b-input>
                 </b-field>
-                <b-field label="Sabe leer?" expanded>
-                    <div class="block">
-                        <strong style="color: red" v-if="missingReading">Seleccionar una opción</strong>
-                        <br v-if="missingReading">
-                        <b-radio v-model="reads" native-value="true">
-                            Sí
-                        </b-radio>
-                        <b-radio v-model="reads" native-value="false">
-                            No
-                        </b-radio>
-                    </div>
-                </b-field>
+                <div style="padding: 10px;">
+                    <strong style="color: red" v-if="missingReading">Seleccionar una opción</strong>
+                    <b-field label="¿Sabe leer?" expanded>
+                        <div class="block">
+                            <b-radio v-model="reads" native-value="true">
+                                Sí
+                            </b-radio>
+                            <b-radio v-model="reads" native-value="false">
+                                No
+                            </b-radio>
+                        </div>
+                    </b-field>
+                </div>
+            </b-field>
+
+            <!-- INFORMACIÓN ESCOLAR DEL ALUMNO -->
+
+            <b-field label="Condiciones médicas y/o alergias" expanded>
+                <b-input type="textarea" v-model="medicalInfo"></b-input>
             </b-field>
         </section>
 
@@ -123,45 +122,48 @@
                 <div class="columns">
                     <div class="column is-two-thirds">
                         <strong>Horarios Primavera 2020</strong>
+                        <br>
                         <img src="../assets/horarioDummy.png" alt="Horario de actividades">
                     </div>
                     <section class="column">
                         <strong style="color: red;" v-if="missingAct">Seleccionar al menos una actividad</strong>
                         <hr>
-                        <div class="has-text-justified" style="">
-                            <b-checkbox v-model="cbxHmw" false-value="no" true-value="Tareas">
+                        <section style="display: flex; flex-direction: column;">
+                            <b-checkbox class="checkbox" v-model="cbxHmw" false-value="no" true-value="Tareas">
                                 Club de Tareas
                             </b-checkbox>
-                            <b-checkbox v-model="cbxChorus" false-value="no" true-value="Coro">
+                            <b-checkbox class="checkbox" v-model="cbxChorus" false-value="no" true-value="Coro">
                                 Coro Construye
                             </b-checkbox>
-                            <b-checkbox v-model="cbxDance" false-value="no" true-value="DANCO">
+                            <b-checkbox class="checkbox" v-model="cbxDance" false-value="no" true-value="DANCO">
                                 DANCO
                             </b-checkbox>
-                            <b-checkbox v-model="cbxOMIC" false-value="no" true-value="OMIC">
+                            <b-checkbox class="checkbox" v-model="cbxOMIC" false-value="no" true-value="OMIC">
                                 OMIC
                             </b-checkbox>
-                            <b-checkbox v-model="cbxReal" false-value="no" true-value="Real">
+                            <b-checkbox class="checkbox" v-model="cbxReal" false-value="no" true-value="Real">
                                 Real
                             </b-checkbox>
-                            <b-checkbox v-model="cbxSharing" false-value="no" true-value="Sharing">
+                            <b-checkbox class="checkbox" v-model="cbxSharing" false-value="no" true-value="Sharing">
                                 Sharing
                             </b-checkbox>
-                            <b-checkbox v-model="cbxChess" false-value="no" true-value="Ajedrez">
+                            <b-checkbox class="checkbox" v-model="cbxChess" false-value="no" true-value="Ajedrez">
                                 Ajedrez Construye
                             </b-checkbox>
-                        </div>
+                        </section>
                     </section>
                 </div>
             </div>
-
         </section>
         <br>
         <!-- Botones para confirmar o cancelar -->
         <div class="buttons container is-centered">
-            <b-button type="is-success" size="is-medium" v-on:click="register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName, tutorFLN,
-                tutorMLN, phone, email)">Registrar</b-button>
-            <b-button type="is-danger" size="is-medium" v-on:click="validate()">Cancelar</b-button>
+            <b-button class="has-text-weight-bold" type="is-success" size="is-medium"
+                v-on:click="register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName, tutorFLN, tutorMLN, phone, email)">
+                Registrar</b-button>
+            <b-button type="is-danger" size="is-medium">
+                <router-link to="/" class="has-text-white has-text-weight-bold">Cancelar</router-link>
+            </b-button>
         </div>
         <br>
     </section>
@@ -225,7 +227,8 @@
                 emailValError: false,
                 missingBIC: false,
                 missingReading: false,
-                missingAct: false
+                missingAct: false,
+                activities: null
             }
         },
         firestore() {
@@ -234,6 +237,27 @@
             }
         },
         methods: {
+            missingDataAlert() {
+                this.$buefy.dialog.alert({
+                    title: 'Faltan campos por completar',
+                    message: 'Revisar y completar los campos faltantes',
+                    type: 'is-danger',
+                })
+            },
+            failed() {
+                this.$buefy.dialog.alert({
+                    title: 'Error',
+                    message: 'Hubo un error al procesar los datos, revisa tu conexión a internet o refresca la página',
+                    type: 'is-danger',
+                })
+            },
+            successAlert() {
+                this.$buefy.dialog.alert({
+                    title: 'Registro correcto',
+                    message: 'El alumno fue registrado correctamente',
+                    type: 'is-success',
+                })
+            },
             validate() {
                 this.nameError = (this.studentName === null || this.studentName === '') ? true : false;
                 this.FLNError = (this.studentFLN === null || this.studentFLN === '') ? true : false;
@@ -245,40 +269,56 @@
                 this.tutorMLNError = (this.tutorMLN === null || this.tutorMLN === '') ? true : false;
                 this.phoneError = (this.phone === null || this.phone === '') ? true : false;
                 this.emailError = (this.email === null || this.email === '') ? true : false;
-                this.emailValError = (this.validateEmail !== this.email) ? true : false;
+                this.emailValError = (this.validateEmail !== this.email || this.validateEmail === null) ? true : false;
                 this.missingBIC = (this.beenOnIC === null) ? true : false;
                 this.missingReading = (this.reads === null) ? true : false
-
+                return !this.nameError && !this.FLNError && !this.MLNError && !this.birthDateError && !this
+                    .gradeError && !this.tutorError && !this.tutorFLNError &&
+                    !this.tutorMLNError && !this.phoneError && !this.emailError && !this.emailValError && !this
+                    .missingBIC && !this.missingReading && !this.missingAct
+            },
+            register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName,
+                tutorFLN, tutorMLN, phone, email) {
                 let checks = [this.cbxHmw, this.cbxChorus, this.cbxDance, this.cbxOMIC, this.cbxReal, this.cbxSharing,
                     this.cbxChess
                 ];
                 let activities = checks.filter(check => (check !== null && check !== 'no'));
                 console.log(activities);
                 this.missingAct = (activities.length === 0);
-
-            },
-            register(beenOnIC, studentName, studentFLN, studentMLN, birthDate, medicalInfo, grade, reads, tutorName,
-                tutorFLN,
-                tutorMLN, phone, email) {
-                const createdAt = new Date()
-                beenOnIC = (beenOnIC === 'true'),
-                    reads = (reads === 'true'),
-                    db.collection('students').add({
-                        beenOnIC,
-                        studentName,
-                        studentFLN,
-                        studentMLN,
-                        birthDate,
-                        medicalInfo,
-                        grade,
-                        reads,
-                        tutorName,
-                        tutorFLN,
-                        tutorMLN,
-                        phone,
-                        email,
-                        createdAt
-                    })
+                let formIsCompleted = this.validate();
+                if (!formIsCompleted) {
+                    console.log("Missing data")
+                    this.missingDataAlert()
+                } else {
+                    try {
+                        console.log("Data complete")
+                        const createdAt = new Date()
+                        beenOnIC = (beenOnIC === 'true')
+                        reads = (reads === 'true')
+                        db.collection('students').add({
+                            beenOnIC,
+                            studentName,
+                            studentFLN,
+                            studentMLN,
+                            birthDate,
+                            medicalInfo,
+                            grade,
+                            reads,
+                            tutorName,
+                            tutorFLN,
+                            tutorMLN,
+                            phone,
+                            email,
+                            createdAt,
+                            activities
+                        })
+                    } catch (error) {
+                        console.error(error);
+                        this.failed()
+                    }
+                    this.successAlert()
+                    this.$router.push('/')
+                }
             }
         }
     }
@@ -288,5 +328,13 @@
     .info {
         border: solid black 1px;
         padding: 15px;
+    }
+
+    .subtitle {
+        font-weight: bold;
+    }
+
+    .checkbox {
+        padding-top: 10%;
     }
 </style>
