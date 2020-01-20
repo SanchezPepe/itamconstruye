@@ -4,8 +4,7 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">Sistema de Información ITAM Construye</h1>
-          <img alt="Vue logo" src="http://www.itamconstruye.itam.mx/wp-content/uploads/cropped-Logo_sinfondoBLANCO.png">
-
+          <img alt="IC logo" src="http://www.itamconstruye.itam.mx/wp-content/uploads/cropped-Logo_sinfondoBLANCO.png">
           <h2 class="subtitle">
             ITAM Construye es una organización formada por estudiantes del Instituto Tecnológico Autónomo de México que
             buscan
