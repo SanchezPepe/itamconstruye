@@ -283,7 +283,8 @@
                         const createdAt = new Date()
                         beenOnIC = (beenOnIC === 'true')
                         reads = (reads === 'true')
-                        db.collection('students').add({
+                        let docName = studentFLN + '-' + studentMLN + '-' + studentName;
+                        db.collection('students').doc(docName).set({
                             beenOnIC,
                             studentName,
                             studentFLN,
