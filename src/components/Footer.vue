@@ -1,5 +1,5 @@
 <template>
-    <div class="hero-foot has-background-dark">
+    <div class="hero-foot has-background-primary">
         <br>
         <nav class="tabs is-boxed is-fullwidth">
             <ul>

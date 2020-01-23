@@ -4,11 +4,9 @@
             <div class="container">
                 <div class="navbar-brand">
                     <b-navbar-item tag="router-link" :to="{ path: '/' }">
-                        <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo">
+                        <!-- <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo"> -->
+                        <img id="logo" src="../assets/iclogo2.svg" alt="Logo">
                     </b-navbar-item>
-                    <a class="navbar-item">
-                        <!-- <img src="../assets/iclogo.png" alt="Logo"> -->
-                    </a>
                     <span class="navbar-burger burger" data-target="navbarMenuHeroC">
                         <span></span>
                         <span></span>
@@ -27,42 +25,13 @@
                             Test
                         </router-link>
                         <router-link to="/admin" class="navbar-item has-text-weight-bold">
-                            <a class="button is-primary">Administradores</a>
+                            <a class="button is-white">Administradores</a>
                         </router-link>
                     </div>
                 </div>
             </div>
         </header>
     </div>
-    <!-- <b-navbar class="is-black">
-        <template slot="brand">
-            <b-navbar-item tag="router-link" :to="{ path: '/' }">
-                <p>ITAM Construye - SI</p>
-            </b-navbar-item>
-        </template>
-
-        <template slot="start">
-            <b-navbar-item href="#">
-                <router-link to="/form" class="navbar-item has-text-weight-bold">Registro Alumnos</router-link>
-            </b-navbar-item>
-            <b-navbar-item href="#">
-                <router-link to="/test" class="navbar-item has-text-weight-bold">Test</router-link>
-            </b-navbar-item>
-        </template>
-
-        <template slot="end">
-            <b-navbar-item tag="div">
-                <router-link to="/admin">
-                    <a class="button is-primary">
-                        <strong>Login Administradores</strong>
-                    </a>
-                </router-link>
-            </b-navbar-item>
-    
-        </template>
-        
-    </b-navbar> -->
-
 </template>
 
 <script>
@@ -101,3 +70,10 @@
 
     });
 </script>
+
+<style>
+    #logo {
+        max-width: 100%;
+        height: auto;
+    }
+</style>

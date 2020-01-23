@@ -1,5 +1,5 @@
 <template>
-  <div class="hero is-dark is-bold is-fullheight" id="app">
+  <div class="hero is-primary is-bold is-fullheight" id="app">
     <Navbar />
 
     <router-view />
@@ -65,6 +65,8 @@
   $link: $primary;
   $link-invert: $primary-invert;
   $link-focus-border: $primary;
+
+  $navbar-item-hover-background-color:hsla(0, 0%, 22%, 0.561);
 
   // Import Bulma and Buefy styles
   @import "~bulma";
