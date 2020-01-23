@@ -10,10 +10,9 @@
                 </div>
             </div>
         </section>
-
-        <br>
+        
         <section class="container">
-            <div class="columns">
+            <section class="columns" style="margin: 0.025%;">
                 <div class="column box">
                     <p class="subtitle has-text-black">Información del Alumno</p>
                     <b-field label="Nombre(s)" expanded :type="{ 'is-danger': nameError }"
@@ -98,7 +97,7 @@
                     </b-field>
 
                 </div>
-            </div>
+            </section>
 
             <!-- Seleccionar cursos -->
             <section class="container box">
