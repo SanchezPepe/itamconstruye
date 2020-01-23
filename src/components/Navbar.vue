@@ -24,8 +24,8 @@
                         <router-link to="/test" class="navbar-item has-text-weight-bold">
                             Test
                         </router-link>
-                        <router-link to="/admin" class="navbar-item has-text-weight-bold">
-                            <a class="button is-white">Administradores</a>
+                        <router-link to="/login" class="navbar-item has-text-weight-bold">
+                            <a class="button is-white" >Administradores</a>
                         </router-link>
                     </div>
                 </div>

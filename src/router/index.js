@@ -4,8 +4,7 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'home',
     component: Home
@@ -13,17 +12,21 @@ const routes = [
   {
     path: '/form',
     name: 'form',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Form.vue')
+    component: () => import( /* webpackChunkName: "about" */ '../views/Form.vue')
   },
   {
     path: '/test',
     name: 'test',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Test.vue')
-  }, 
+    component: () => import( /* webpackChunkName: "about" */ '../views/Test.vue')
+  },
   {
     path: '/admin',
     name: 'admin',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+    component: () => import( /* webpackChunkName: "about" */ '../views/Admin.vue')
+  }, {
+    path: '/login',
+    name: 'login',
+    component: () => import( /* webpackChunkName: "about" */ '../views/Login.vue')
   }
 ]
 
