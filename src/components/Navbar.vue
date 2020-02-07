@@ -5,7 +5,7 @@
                 <div class="navbar-brand">
                     <b-navbar-item tag="router-link" :to="{ path: '/' }">
                         <!-- <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo"> -->
-                        <img id="logo" src="../assets/iclogo2.svg" alt="Logo">
+                        <img id="logo" src="../assets/iclogo.png" alt="Logo">
                     </b-navbar-item>
                     <span class="navbar-burger burger" data-target="navbarMenuHeroC">
                         <span></span>
