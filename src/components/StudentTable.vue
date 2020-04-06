@@ -1,97 +1,84 @@
 <template>
-    <section>
-        <!-- <b-tabs>
-            <b-tab-item label="Alumnos registrados">
-                <b-table :data="datos" :columns="columns" :loading="loadingData" focusable>
-                </b-table>
-            </b-tab-item>
-        </b-tabs> -->
-        <!-- <p>LOOL {{ datos }}</p> -->
+	<section>
+		<b-table :data="students" :loading="loadingData" ref="table" paginated per-page="5"
+			:opened-detailed="defaultOpenedDetails" detailed detail-key="studentName" :show-detail-icon="showDetailIcon"
+			aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page"
+			aria-current-label="Current page">
+			<template slot-scope="studentData">
+				<b-table-column label="Nombre" sortable>
+					{{ studentData.row.studentName.concat(" ", studentData.row.studentFLN, " ", studentData.row.studentMLN).toString()}}
+				</b-table-column>
+				<b-table-column label="Tutor" sortable>
+					{{ studentData.row.tutorName.concat(" ", studentData.row.tutorFLN, " ", studentData.row.tutorMLN) }}</b-table-column>
+				<b-table-column label="Contacto" sortable>{{ studentData.row.email}}</b-table-column>
+			</template>
 
-        <b-table :data="datos" :loading="loadingData" ref="table" paginated per-page="5"
-            :opened-detailed="defaultOpenedDetails" detailed detail-key="studentName"
-            @details-open="(row, index) => $buefy.toast.open(`Expanded ${row.studentName}`)"
-            :show-detail-icon="showDetailIcon" aria-next-label="Next page" aria-previous-label="Previous page"
-            aria-page-label="Page" aria-current-label="Current page">
+			<template slot="detail" slot-scope="studentData">
+				<b-field grouped group-multiline>
+					<b-field label="Nombre" :label-position="labelPosition" expanded>
+						<b-input :value=studentData.row.studentName></b-input>
+					</b-field>
 
-            <template slot-scope="props">
-                <b-table-column label="Nombre" sortable>
-                    {{ props.row.studentName + " " + props.row.studentFLN + ' ' + props.row.studentMLN }}
-                </b-table-column>
-                <b-table-column label="Tutor" sortable>
-                    {{ props.row.tutorName + " " + props.row.tutorFLN + ' ' + props.row.tutorMLN }}
-                </b-table-column>
-                <b-table-column label="Contacto" sortable>
-                    {{ props.row.email }}
-                </b-table-column>
+					<b-field label="Apellido Materno" :label-position="labelPosition" expanded>
+						<b-input :value=studentData.row.studentFLN></b-input>
+					</b-field>
 
-            </template>
+					<b-field label="Apellido Paterno" :label-position="labelPosition" expanded>
+						<b-input :value=studentData.row.studentMLN></b-input>
 
-            <template slot="detail" slot-scope="props">
-                <article class="media">
-                    <figure class="media-left">
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <div class="columns">
-                                <div class="column box">
-                                    <p>{{ props.row.studentName }} {{ props.row.studentFLN }} {{props.row.studentMLN}}</p>
-                                    <p>{{ props.row.activities }}</p>
-                                </div>
-                                <div class="column box  ">
+					</b-field>
+				</b-field>
+				<div class="buttons">
+					<b-button type="is-info" @click="updateStudent(studentData.row)">Guardar cambios</b-button>
+					<b-button type="is-danger">Cancelar</b-button>
+				</div>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </template>
-        </b-table>
-
-    </section>
+			</template>
+		</b-table>
+	</section>
 </template>
 
 <script src="/__/firebase/7.6.2/firebase-firestore.js"></script>
 <script>
-    import {
-        db
-    } from '../main'
-    import {
-        read
-    } from 'fs'
+	import {
+		db
+	} from "../main";
+	import {
+		read
+	} from "fs";
 
-    export default {
-        name: 'StudentTable',
-        data() {
-            return {
-                datos: [],
-                defaultOpenedDetails: [1],
-                showDetailIcon: true,
-                loadingData: false,
-            }
-        },
-        async mounted() {
-            try {
-                this.loadingData = true
-                const students = await db.collection("students").get()
-                students.forEach(student => {
-                    this.datos.push(student.data())
-                })
-            } catch (error) {
-                console.error(error)
-            } finally {
-                this.loadingData = false
-                console.log(this.datos)
-            }
-        },
-        methods: {
-            toggle(row) {
-                this.$refs.table.toggleDetails(row)
-            }
-        }
-    }
+	export default {
+		name: "StudentTable",
+		data() {
+			return {
+				students: [],
+				defaultOpenedDetails: [1],
+				showDetailIcon: true,
+				loadingData: false,
+				labelPosition: 'on-border'
+			};
+		},
+		async mounted() {
+			try {
+				this.loadingData = true;
+				const students = await db.collection("students").get();
+				students.forEach(student => {
+					this.students.push(student.data());
+				});
+			} catch (error) {
+				console.error(error);
+			} finally {
+				this.loadingData = false;
+				console.log(this.students);
+			}
+		},
+		methods: {
+			updateStudent(row){
+				alert(row.studentName);
+			}
+		}
+	};
 </script>
 
 <style>
-
 </style>
